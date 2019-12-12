@@ -9,6 +9,7 @@
     <version>1.0.1-RELEASE</version>
 
     <name>util-plus</name>
+    <url>https://github.com/HWYWL/util-plus</url>
     <description>一个使用很方便的工具类</description>
 
     <licenses>
