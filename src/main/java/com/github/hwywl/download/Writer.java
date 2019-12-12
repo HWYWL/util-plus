@@ -26,6 +26,11 @@ public class Writer {
     private Collection<?> rows;
 
     /**
+     * 如果<code>true</code>，那么数据是追加而不是覆盖
+     */
+    private boolean isAppend = false;
+
+    /**
      * 接收数据
      *
      * @param rows row data
@@ -33,6 +38,11 @@ public class Writer {
      */
     public Writer withRows(Collection<?> rows) {
         this.rows = rows;
+        return this;
+    }
+
+    public Writer isAppend(boolean isAppend) {
+        this.isAppend = isAppend;
         return this;
     }
 
@@ -45,7 +55,7 @@ public class Writer {
     public void to(String fileName) throws WriterException {
         File file = new File(fileName);
         try {
-            this.to(new FileOutputStream(file));
+            this.to(new FileOutputStream(file, isAppend));
         } catch (FileNotFoundException e) {
             throw new WriterException(e);
         }
