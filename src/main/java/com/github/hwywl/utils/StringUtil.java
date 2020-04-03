@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.hwywl.util;
+package com.github.hwywl.utils;
 
 import lombok.experimental.UtilityClass;
 
@@ -27,7 +27,7 @@ import lombok.experimental.UtilityClass;
 public class StringUtil {
 
     public static boolean isNotEmpty(String value) {
-        return null != value && !value.isEmpty();
+        return !isEmpty(value);
     }
 
     public static boolean isEmpty(String value) {

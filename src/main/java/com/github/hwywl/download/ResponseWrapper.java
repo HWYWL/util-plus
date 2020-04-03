@@ -1,7 +1,7 @@
 package com.github.hwywl.download;
 
 import com.github.hwywl.exception.WriterException;
-import com.github.hwywl.util.StringUtil;
+import com.github.hwywl.utils.StringUtil;
 import lombok.experimental.UtilityClass;
 
 import javax.servlet.http.HttpServletResponse;
