@@ -7,7 +7,6 @@ import com.aliyun.openservices.log.request.PutLogsRequest;
 import com.aliyun.openservices.log.response.PutLogsResponse;
 import com.github.hwywl.utils.ConfLogHubUtil;
 import com.github.hwywl.utils.StringUtil;
-import lombok.extern.slf4j.Slf4j;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -21,7 +20,6 @@ import java.util.Map;
  * @author YI
  * @date 2020/4/3 10:20
  */
-@Slf4j
 public class LogHubService {
 
     public static LogHubService create() {
