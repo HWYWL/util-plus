@@ -74,7 +74,7 @@ public String getAccountUrl() {
 如果你只是一个普通的Java项目，把初始化数据写在程序执行开始的地方即可，可以参考**Test**中的案例。
 
 这就是上面所需要的参数
-![1.png](http://yanxuan.nosdn.127.net/d652eba243bc4f33ddc1a18ab4dd2c63.png)
+![](https://i.imgur.com/B48Cw4m.png)
 
 ### 使用
 分为两个重载方法，一个是推送普通数据的，另一个是推送异常日志的。
