@@ -55,9 +55,9 @@ Writer.create().withRows(list).isAppend(true).to("aaa.txt");
 ## 阿里云LogHub日志
 ### 初始化
 在使用之前需要初始化基本的参数，如果你使用Spring Boot，可以是用@Bean注解初始化
-```
+```java
 @Bean
-public MessageResult getAccountUrl() {
+public String getAccountUrl() {
 	LogHubUtil.init(
             "cn-shanghai.log.aliyuncs.com",
             "****************",
@@ -67,6 +67,7 @@ public MessageResult getAccountUrl() {
             "test",
             "test"
     );
+	return "SUCCESS";
 }
 ```
 
@@ -79,7 +80,7 @@ public MessageResult getAccountUrl() {
 分为两个重载方法，一个是推送普通数据的，另一个是推送异常日志的。
 
 这样就把数据推送到日志库了：
-```
+```java
 Map<String, String> map = new HashMap<>();
 map.put("send_server_id", "11");
 map.put("receive_server_id", "1");
@@ -89,7 +90,7 @@ map.put("open_id", "rfikaseoioire98weio3966666");
 PutLogsResponse putLogsResponse = LogHubService.create().pushLogHub(map);
 ```
 还**支持**批量推送：
-```
+```java
 List<Map<String, String>> batch = new ArrayList<>();
 Map<String, String> map = new HashMap<>();
 map.put("send_server_id", "11");
@@ -103,7 +104,7 @@ PutLogsResponse putLogsResponse = LogHubService.create().pushLogHubBatch(batch);
 ```
 
 异常推送，因为考虑到一个**try catch**为一个异常，所以**不支持**批量推送：
-```
+```java
 String text = "{\"open_id\":\"rfikaseoioire98weio3966666\",\"platform_id\":11,\"app_id\":11}";
 
 JSONObject jsonObject = JSONObject.parseObject(text);
@@ -118,7 +119,7 @@ try {
 
 ### 扩展
 如果**source**和**topic**需要自定义传，可以使用下面这种链式表达式即可，如果不传使用最开始配置中的参数。
-```
+```java
 LogHubService.create().source("app").topic("android").pushLogHub(map, Loglevel.ERROR, text, e);
 ```
 
