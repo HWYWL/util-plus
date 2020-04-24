@@ -16,6 +16,11 @@ public class ConfLogHubUtil {
     private static final ConcurrentHashMap<String, Client> CACHE_CLIENT = new ConcurrentHashMap<>(4);
 
     /**
+     * 是否上传日志
+     */
+    public static boolean isLogEnabled = true;
+
+    /**
      * 赋值
      * @param key
      * @param value

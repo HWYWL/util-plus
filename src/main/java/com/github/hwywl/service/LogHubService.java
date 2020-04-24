@@ -65,7 +65,12 @@ public class LogHubService {
      * @return
      * @throws LogException
      */
-    public PutLogsResponse pushLogHub(Map<String, String> data){
+    public PutLogsResponse pushLogHub(Map<String, String> data) {
+        // 判断是否推送日志到LogHub
+        if (!ConfLogHubUtil.isLogEnabled) {
+            return null;
+        }
+
         List<LogItem> logGroup = new ArrayList<>();
         LogItem logItem = new LogItem();
 
@@ -87,6 +92,11 @@ public class LogHubService {
      * @throws LogException
      */
     public PutLogsResponse pushLogHub(Map<String, String> data, String level, String logData, Exception throwable) {
+        // 判断是否推送日志到LogHub
+        if (!ConfLogHubUtil.isLogEnabled) {
+            return null;
+        }
+
         List<LogItem> logGroup = new ArrayList<>();
         LogItem logItem = new LogItem();
 
@@ -121,6 +131,10 @@ public class LogHubService {
      * @throws LogException
      */
     public PutLogsResponse pushLogHubBatch(List<Map<String, String>> data) {
+        // 判断是否推送日志到LogHub
+        if (!ConfLogHubUtil.isLogEnabled) {
+            return null;
+        }
 
         List<LogItem> logGroup = new ArrayList<>();
 
@@ -145,6 +159,11 @@ public class LogHubService {
      * @throws LogException
      */
     private PutLogsResponse putLogsRequest(List<LogItem> logGroup) {
+        // 判断是否推送日志到LogHub
+        if (!ConfLogHubUtil.isLogEnabled) {
+            return null;
+        }
+
         Client client = ConfLogHubUtil.getClient();
 
         // 构建推送请求结构
