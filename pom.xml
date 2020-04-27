@@ -6,7 +6,7 @@
 
     <groupId>com.github.hwywl</groupId>
     <artifactId>util-plus</artifactId>
-    <version>1.0.3-RELEASE</version>
+    <version>1.0.4-RELEASE</version>
 
     <name>util-plus</name>
     <url>https://github.com/HWYWL/util-plus</url>
@@ -23,7 +23,7 @@
         <connection>scm:git:https://github.com/HWYWL/util-plus.git</connection>
         <developerConnection>scm:git:https://github.com/HWYWL/util-plus.git</developerConnection>
         <url>https://github.com/HWYWL/util-plus</url>
-        <tag>util-plus-1.0.3</tag>
+        <tag>util-plus-1.0.4</tag>
     </scm>
 
     <developers>

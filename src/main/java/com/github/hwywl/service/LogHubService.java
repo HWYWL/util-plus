@@ -67,7 +67,7 @@ public class LogHubService {
      */
     public PutLogsResponse pushLogHub(Map<String, String> data) {
         // 判断是否推送日志到LogHub
-        if (!ConfLogHubUtil.isLogEnabled) {
+        if (!ConfLogHubUtil.isLogEnabled || null == data || data.size() == 0) {
             return null;
         }
 
@@ -87,9 +87,11 @@ public class LogHubService {
     /**
      * 单条异常日志推送
      *
-     * @param data 数据
+     * @param data      自定义参数
+     * @param level     错误类型
+     * @param logData   完整数据
+     * @param throwable 异常信息
      * @return
-     * @throws LogException
      */
     public PutLogsResponse pushLogHub(Map<String, String> data, String level, String logData, Exception throwable) {
         // 判断是否推送日志到LogHub
@@ -100,10 +102,13 @@ public class LogHubService {
         List<LogItem> logGroup = new ArrayList<>();
         LogItem logItem = new LogItem();
 
-        // 构建日志结构
-        for (String key : data.keySet()) {
-            String value = data.get(key);
-            logItem.PushBack(key, value);
+        // 可以不传
+        if (null != data && data.size() > 0) {
+            // 构建日志结构
+            for (String key : data.keySet()) {
+                String value = data.get(key);
+                logItem.PushBack(key, value);
+            }
         }
 
         logItem.PushBack("level", level);
@@ -132,7 +137,7 @@ public class LogHubService {
      */
     public PutLogsResponse pushLogHubBatch(List<Map<String, String>> data) {
         // 判断是否推送日志到LogHub
-        if (!ConfLogHubUtil.isLogEnabled) {
+        if (!ConfLogHubUtil.isLogEnabled || null == data || data.size() == 0) {
             return null;
         }
 
