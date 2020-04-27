@@ -9,13 +9,13 @@
 <dependency>
   <groupId>com.github.hwywl</groupId>
   <artifactId>util-plus</artifactId>
-  <version>1.0.2-RELEASE</version>
+  <version>1.0.4-RELEASE</version>
 </dependency>
 ```
 
 **Gradle**
 ```
-implementation 'com.github.hwywl:util-plus:1.0.2-RELEASE'
+implementation 'com.github.hwywl:util-plus:1.0.4-RELEASE'
 ```
 
 
@@ -70,6 +70,7 @@ public String getAccountUrl() {
 	return "SUCCESS";
 }
 ```
+初始化方法提供了一个**重载方法**，可以用于控制是否发送日志到阿里云。
 
 如果你只是一个普通的Java项目，把初始化数据写在程序执行开始的地方即可，可以参考**Test**中的案例。
 
