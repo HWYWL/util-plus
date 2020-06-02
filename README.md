@@ -1,21 +1,21 @@
 # util-plus
 一个使用很方便的工具类
 
-[![author](https://img.shields.io/badge/author-HWY-red.svg)](https://github.com/HWYWL)  [![Maven Central](https://img.shields.io/badge/util--plus-1.0.1--RELEASE-ff69b4.svg)](https://search.maven.org/artifact/com.github.hwywl/util-plus/1.0.1-RELEASE/jar)
+[![author](https://img.shields.io/badge/author-HWY-red.svg)](https://github.com/HWYWL)  [![Maven Central](https://img.shields.io/badge/util--plus-1.0.5--RELEASE-ff69b4.svg)](https://search.maven.org/artifact/com.github.hwywl/util-plus/1.0.5-RELEASE/jar)
 
 ### 安装
 **maven**
 ```
 <dependency>
-  <groupId>com.github.hwywl</groupId>
-  <artifactId>util-plus</artifactId>
-  <version>1.0.4-RELEASE</version>
+    <groupId>com.github.hwywl</groupId>
+    <artifactId>util-plus-spring-boot-starter</artifactId>
+    <version>1.0.5-RELEASE</version>
 </dependency>
 ```
 
 **Gradle**
 ```
-implementation 'com.github.hwywl:util-plus:1.0.4-RELEASE'
+implementation 'com.github.hwywl:util-plus:1.0.5-RELEASE'
 ```
 
 
@@ -54,28 +54,58 @@ Writer.create().withRows(list).isAppend(true).to("aaa.txt");
 
 ## 阿里云LogHub日志
 ### 初始化
-在使用之前需要初始化基本的参数，如果你使用Spring Boot，可以是用@Bean注解初始化
+在使用之前需要初始化基本的参数，如果你使用Spring Boot，可以直接在配置文件中配置即可
+```
+ali.log.hub.conf.access-id=*************
+ali.log.hub.conf.access-key=************
+ali.log.hub.conf.endpoint=cn-shanghai.log.aliyuncs.com
+ali.log.hub.conf.project=jk-chat
+ali.log.hub.conf.log-store=game-chat-log
+ali.log.hub.conf.log-source=test
+ali.log.hub.conf.log-topic=test
+ali.log.hub.conf.enabled=true
+```
+
+配置的含义可以参看下面的信息：
+```
+accessId：阿里云访问密钥 AccessKeyId（必填）
+accessKey：阿里云访问密钥AccessKeySecret（必填）
+logStore：日志库的名称（必填）
+endpoint：所属区域匹配的Endpoint，例如：cn-shanghai.log.aliyuncs.com（必填）
+project：Project列表中的名称（必填）
+logTopic：日志主题（非必填）
+logSource：日志来源，一般填项目的名称+环境（非必填）
+enabled：是否启用日志上报功能，默认为true（非必填）
+```
+
+如果你只是一个普通的Java项目，把初始化数据写在程序执行开始的地方即可，可以参考**Test**中的测试案例。
 ```java
-@Bean
-public String getAccountUrl() {
-	LogHubUtil.init(
+@Test
+public void push() {
+    LogHubUtil.init(
             "cn-shanghai.log.aliyuncs.com",
             "****************",
-            "****************",
-            "ikylin-errorlog",
-            "consumer-online",
+            "******************",
+            "jk-chat",
+            "game-chat-log",
             "test",
             "test"
     );
-	return "SUCCESS";
+
+    Map<String, String> map = new HashMap<>();
+    map.put("send_server_id", "11");
+    map.put("receive_server_id", "1");
+    map.put("chat_type", "私聊");
+    map.put("open_id", "rfikaseoioire98weio3966666");
+
+    PutLogsResponse putLogsResponse = LogHubService.create().pushLogHub(map);
 }
 ```
-初始化方法提供了一个**重载方法**，可以用于控制是否发送日志到阿里云。
-
-如果你只是一个普通的Java项目，把初始化数据写在程序执行开始的地方即可，可以参考**Test**中的案例。
 
 这就是上面所需要的参数
 ![](https://i.imgur.com/B48Cw4m.png)
+
+**注意**：初始化方法提供了一个重载方法，可以用于控制是否发送日志到阿里云，请参考**LogHubUtil**类。
 
 ### 使用
 分为两个重载方法，一个是推送普通数据的，另一个是推送异常日志的。

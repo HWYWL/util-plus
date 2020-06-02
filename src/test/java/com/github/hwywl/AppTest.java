@@ -3,7 +3,7 @@ package com.github.hwywl;
 import com.github.hwywl.download.ResponseWrapper;
 import com.github.hwywl.download.Writer;
 import com.github.hwywl.exception.WriterException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;

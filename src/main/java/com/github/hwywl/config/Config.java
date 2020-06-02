@@ -1,10 +1,19 @@
 package com.github.hwywl.config;
 
+import com.aliyun.openservices.log.Client;
+import com.github.hwywl.utils.ConfLogHubUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
 /**
  * @author YI
  * @date 2020/4/2 17:54
  */
+@Configuration
 public class Config {
+    @Autowired
+    LogHubProperties logHubProperties;
 
     /**
      * Project列表中的名称
@@ -30,4 +39,23 @@ public class Config {
      * loghub客户端
      */
     public static String CLIENT = "client";
+
+    /**
+     * 用spring boot初始化阿里云LogHub配置信息
+     * @return
+     */
+    @Bean
+    public Client init() {
+
+        ConfLogHubUtil.put(Config.PROJECT, logHubProperties.project);
+        ConfLogHubUtil.put(Config.LOG_STORE, logHubProperties.logStore);
+        ConfLogHubUtil.put(Config.TOPIC, logHubProperties.logTopic);
+        ConfLogHubUtil.put(Config.SOURCE, logHubProperties.logSource);
+        ConfLogHubUtil.isLogEnabled = logHubProperties.isEnabled();
+
+        Client client = new Client(logHubProperties.endpoint, logHubProperties.accessId, logHubProperties.accessKey);
+        ConfLogHubUtil.putClient(client);
+
+        return client;
+    }
 }

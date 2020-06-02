@@ -5,7 +5,7 @@ import com.aliyun.openservices.log.response.PutLogsResponse;
 import com.github.hwywl.config.Loglevel;
 import com.github.hwywl.service.LogHubService;
 import com.github.hwywl.utils.LogHubUtil;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
