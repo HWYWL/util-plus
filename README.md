@@ -15,7 +15,7 @@
 
 **Gradle**
 ```
-implementation 'com.github.hwywl:util-plus:1.0.5-RELEASE'
+implementation 'com.github.hwywl:util-plus-spring-boot-starter:1.0.5-RELEASE'
 ```
 
 
