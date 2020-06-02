@@ -18,7 +18,14 @@
 implementation 'com.github.hwywl:util-plus-spring-boot-starter:1.0.5-RELEASE'
 ```
 
-
+因为加入了spring框架的支持，所以jar包会比较大一点，如果你的项目中没有使用spring框架，可以使用老版本：
+```
+<dependency>
+    <groupId>com.github.hwywl</groupId>
+    <artifactId>util-plus</artifactId>
+    <version>1.0.4-RELEASE</version>
+</dependency>
+```
 
 ## 下载
 以Spring boot构建的项目为例，我们查看如下代码：
