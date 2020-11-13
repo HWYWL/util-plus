@@ -1,5 +1,6 @@
 package com.github.hwywl.service;
 
+import com.alibaba.fastjson.JSON;
 import com.aliyun.openservices.log.Client;
 import com.aliyun.openservices.log.common.LogItem;
 import com.aliyun.openservices.log.exception.LogException;
@@ -63,6 +64,153 @@ public class LogHubService {
      *
      * @param data 数据
      * @return
+     */
+    public PutLogsResponse pushLogHub(Object data) {
+        // 判断是否推送日志到LogHub
+        if (!ConfLogHubUtil.isLogEnabled || null == data) {
+            return null;
+        }
+
+        String jsonStr = JSON.toJSONString(data);
+
+        return pushLogHub(jsonStr);
+    }
+
+    /**
+     * 单条日志推送
+     *
+     * @param data 数据
+     * @return
+     */
+    public PutLogsResponse pushLogHub(String data) {
+        // 判断是否推送日志到LogHub
+        if (!ConfLogHubUtil.isLogEnabled || StringUtil.isEmpty(data)) {
+            return null;
+        }
+
+        List<LogItem> logGroup = new ArrayList<>();
+        LogItem logItem = new LogItem();
+
+        logItem.PushBack("log", data);
+        logGroup.add(logItem);
+
+        return putLogsRequest(logGroup);
+    }
+
+    /**
+     * 批量日志推送
+     *
+     * @param data 数据
+     * @return
+     */
+    public PutLogsResponse pushLogHubListObjectBatch(List<Object> data) {
+        // 判断是否推送日志到LogHub
+        if (!ConfLogHubUtil.isLogEnabled || null == data) {
+            return null;
+        }
+
+        String jsonStr = JSON.toJSONString(data);
+
+        return pushLogHub(jsonStr);
+    }
+
+    /**
+     * 批量日志推送
+     *
+     * @param data 数据
+     * @return
+     */
+    public PutLogsResponse pushLogHubListBatch(List<String> data) {
+        // 判断是否推送日志到LogHub
+        if (!ConfLogHubUtil.isLogEnabled || null == data || data.size() == 0) {
+            return null;
+        }
+
+        String jsonStr = JSON.toJSONString(data);
+
+        return pushLogHub(jsonStr);
+    }
+
+    /**
+     * 批量日志推送
+     *
+     * @param key  loghub中数据键，类似于map中的key
+     * @param data 数据
+     * @return
+     */
+    public PutLogsResponse pushLogHubListObjectBatch(String key, List<Object> data) {
+        // 判断是否推送日志到LogHub
+        if (!ConfLogHubUtil.isLogEnabled || StringUtil.isEmpty(key) || null == data) {
+            return null;
+        }
+
+        String jsonStr = JSON.toJSONString(data);
+
+        return pushLogHub(key, jsonStr);
+    }
+
+    /**
+     * 批量日志推送
+     *
+     * @param key  loghub中数据键，类似于map中的key
+     * @param data 数据
+     * @return
+     */
+    public PutLogsResponse pushLogHubListBatch(String key, List<String> data) {
+        // 判断是否推送日志到LogHub
+        if (!ConfLogHubUtil.isLogEnabled || StringUtil.isEmpty(key) || null == data || data.size() == 0) {
+            return null;
+        }
+
+        String jsonStr = JSON.toJSONString(data);
+
+        return pushLogHub(key, jsonStr);
+    }
+
+    /**
+     * 单条日志推送
+     *
+     * @param key  loghub中数据键，类似于map中的key
+     * @param data 数据
+     * @return
+     */
+    public PutLogsResponse pushLogHub(String key, Object data) {
+        // 判断是否推送日志到LogHub
+        if (!ConfLogHubUtil.isLogEnabled || null == data || StringUtil.isEmpty(key)) {
+            return null;
+        }
+
+        String jsonStr = JSON.toJSONString(data);
+
+        return pushLogHub(key, jsonStr);
+    }
+
+    /**
+     * 单条日志推送
+     *
+     * @param data 数据
+     * @return
+     */
+    public PutLogsResponse pushLogHub(String key, String data) {
+        // 判断是否推送日志到LogHub
+        if (!ConfLogHubUtil.isLogEnabled || StringUtil.isEmpty(data) || StringUtil.isEmpty(key)) {
+            return null;
+        }
+
+        List<LogItem> logGroup = new ArrayList<>();
+        LogItem logItem = new LogItem();
+
+        logItem.PushBack(key, data);
+        logGroup.add(logItem);
+
+        return putLogsRequest(logGroup);
+    }
+
+    /**
+     * 单条日志推送
+     *
+     * @param data 数据
+     * @return
      * @throws LogException
      */
     public PutLogsResponse pushLogHub(Map<String, String> data) {
@@ -79,50 +227,6 @@ public class LogHubService {
             String value = data.get(key);
             logItem.PushBack(key, value);
         }
-        logGroup.add(logItem);
-
-        return putLogsRequest(logGroup);
-    }
-
-    /**
-     * 单条异常日志推送
-     *
-     * @param data      自定义参数
-     * @param level     错误类型
-     * @param logData   完整数据
-     * @param throwable 异常信息
-     * @return
-     */
-    public PutLogsResponse pushLogHub(Map<String, String> data, String level, String logData, Exception throwable) {
-        // 判断是否推送日志到LogHub
-        if (!ConfLogHubUtil.isLogEnabled) {
-            return null;
-        }
-
-        List<LogItem> logGroup = new ArrayList<>();
-        LogItem logItem = new LogItem();
-
-        // 可以不传
-        if (null != data && data.size() > 0) {
-            // 构建日志结构
-            for (String key : data.keySet()) {
-                String value = data.get(key);
-                logItem.PushBack(key, value);
-            }
-        }
-
-        logItem.PushBack("level", level);
-        logItem.PushBack("log", logData);
-
-        // 错误日志
-        if (null != throwable) {
-            StringWriter stringWriter = new StringWriter();
-            throwable.printStackTrace(new PrintWriter(stringWriter));
-
-            logItem.PushBack("message", throwable.getMessage());
-            logItem.PushBack("throwable", stringWriter.toString());
-        }
-
         logGroup.add(logItem);
 
         return putLogsRequest(logGroup);
@@ -188,5 +292,49 @@ public class LogHubService {
             e.printStackTrace();
         }
         return putLogsResponse;
+    }
+
+    /**
+     * 单条异常日志推送
+     *
+     * @param data      自定义参数
+     * @param level     错误类型
+     * @param logData   完整数据
+     * @param throwable 异常信息
+     * @return
+     */
+    public PutLogsResponse pushLogHub(Map<String, String> data, String level, String logData, Exception throwable) {
+        // 判断是否推送日志到LogHub
+        if (!ConfLogHubUtil.isLogEnabled) {
+            return null;
+        }
+
+        List<LogItem> logGroup = new ArrayList<>();
+        LogItem logItem = new LogItem();
+
+        // 可以不传
+        if (null != data && data.size() > 0) {
+            // 构建日志结构
+            for (String key : data.keySet()) {
+                String value = data.get(key);
+                logItem.PushBack(key, value);
+            }
+        }
+
+        logItem.PushBack("level", level);
+        logItem.PushBack("log", logData);
+
+        // 错误日志
+        if (null != throwable) {
+            StringWriter stringWriter = new StringWriter();
+            throwable.printStackTrace(new PrintWriter(stringWriter));
+
+            logItem.PushBack("message", throwable.getMessage());
+            logItem.PushBack("throwable", stringWriter.toString());
+        }
+
+        logGroup.add(logItem);
+
+        return putLogsRequest(logGroup);
     }
 }

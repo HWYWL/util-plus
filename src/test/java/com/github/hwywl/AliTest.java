@@ -125,4 +125,23 @@ public class AliTest {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void push04() {
+        LogHubUtil.init(
+                "cn-hongkong.log.aliyuncs.com",
+                "****************",
+                "****************",
+                "ikylin-syslogs",
+                "ikylin-consumer",
+                "test",
+                "test"
+        );
+
+        List<String> vals = new ArrayList<>();
+        vals.add("锄禾日当午，汗滴禾下土。");
+        vals.add("谁知盘中餐，粒粒皆辛苦。");
+
+        LogHubService.create().source("app").topic("android").pushLogHubListBatch("log", vals);
+    }
 }

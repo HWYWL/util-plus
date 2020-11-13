@@ -11,7 +11,7 @@
     </parent>
     <groupId>com.github.hwywl</groupId>
     <artifactId>util-plus-spring-boot-starter</artifactId>
-    <version>1.0.5-RELEASE</version>
+    <version>1.0.6-RELEASE</version>
 
     <name>util-plus</name>
     <url>https://github.com/HWYWL/util-plus</url>
@@ -28,7 +28,7 @@
         <connection>scm:git:https://github.com/HWYWL/util-plus.git</connection>
         <developerConnection>scm:git:https://github.com/HWYWL/util-plus.git</developerConnection>
         <url>https://github.com/HWYWL/util-plus</url>
-        <tag>util-plus-1.0.5</tag>
+        <tag>util-plus-1.0.6</tag>
     </scm>
 
     <developers>
@@ -78,7 +78,7 @@
         <dependency>
             <groupId>com.aliyun.openservices</groupId>
             <artifactId>aliyun-log</artifactId>
-            <version>0.6.50</version>
+            <version>0.6.60</version>
         </dependency>
 
         <!--test测试工具类-->

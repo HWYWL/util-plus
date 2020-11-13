@@ -1,7 +1,7 @@
 # util-plus
 一个使用很方便的工具类
 
-[![author](https://img.shields.io/badge/author-HWY-red.svg)](https://github.com/HWYWL)  [![Maven Central](https://img.shields.io/badge/util--plus-1.0.5--RELEASE-ff69b4.svg)](https://search.maven.org/artifact/com.github.hwywl/util-plus/1.0.5-RELEASE/jar)
+[![author](https://img.shields.io/badge/author-HWY-red.svg)](https://github.com/HWYWL)  [![Maven Central](https://img.shields.io/badge/util--plus-1.0.6--RELEASE-ff69b4.svg)](https://search.maven.org/artifact/com.github.hwywl/util-plus/1.0.6-RELEASE/jar)
 
 ### 安装
 **maven**
@@ -9,13 +9,13 @@
 <dependency>
     <groupId>com.github.hwywl</groupId>
     <artifactId>util-plus-spring-boot-starter</artifactId>
-    <version>1.0.5-RELEASE</version>
+    <version>1.0.6-RELEASE</version>
 </dependency>
 ```
 
 **Gradle**
 ```
-implementation 'com.github.hwywl:util-plus-spring-boot-starter:1.0.5-RELEASE'
+implementation 'com.github.hwywl:util-plus-spring-boot-starter:1.0.6-RELEASE'
 ```
 
 因为加入了spring框架的支持，所以jar包会比较大一点，如果你的项目中没有使用spring框架，可以使用老版本：
@@ -161,3 +161,22 @@ try {
 LogHubService.create().source("app").topic("android").pushLogHub(map, Loglevel.ERROR, text, e);
 ```
 
+----------
+
+### 1.0.6-RELEASE 版本更新
+
+1. 增加String和Objest的入参，同时支持批量List<String>和List<Object>。
+2. 增加自定义key的操作，代码测试如下
+3. 更新loghub sdk版本为 **0.6.60**
+
+```
+List<String> vals = new ArrayList<>();
+vals.add("锄禾日当午，汗滴禾下土。");
+vals.add("谁知盘中餐，粒粒皆辛苦。");
+
+LogHubService.create().source("app").topic("android").pushLogHubListBatch("log", vals);
+```
+显示结果
+![](https://s3.ax1x.com/2020/11/13/DSBZYq.png)
+
+具体代码可查看**AliTest.java**中的**push04()**测试方法。
