@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * @author YI
@@ -37,7 +38,22 @@ public class AliTest {
         map.put("chat_type", "私聊");
         map.put("open_id", "rfikaseoioire98weio3966666");
 
-        PutLogsResponse putLogsResponse = LogHubService.create().pushLogHub(map);
+        CompletableFuture<PutLogsResponse> future = LogHubService.create().pushLogHub(map);
+
+        // 正式服可以不需要这一段，这里只是为了让主线程不要立刻停止
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException ie) {
+            ie.printStackTrace();
+        }
+
+        // 执行成功，如果不需要返回值这一段可以不需要
+        future.thenAccept((result) -> System.out.println("thenAccept: " + result));
+        // 执行异常，如果不需要返回值这一段可以不需要
+        future.exceptionally((exec) -> {
+            exec.printStackTrace();
+            return null;
+        });
     }
 
     @Test
@@ -60,7 +76,22 @@ public class AliTest {
 
         batch.add(map);
 
-        PutLogsResponse putLogsResponse = LogHubService.create().pushLogHubBatch(batch);
+        CompletableFuture<PutLogsResponse> future = LogHubService.create().pushLogHubBatch(batch);
+
+        // 正式服可以不需要这一段，这里只是为了让主线程不要立刻停止
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException ie) {
+            ie.printStackTrace();
+        }
+
+        // 执行成功，如果不需要返回值这一段可以不需要
+        future.thenAccept((result) -> System.out.println("thenAccept: " + result));
+        // 执行异常，如果不需要返回值这一段可以不需要
+        future.exceptionally((exec) -> {
+            exec.printStackTrace();
+            return null;
+        });
     }
 
     /**
@@ -89,7 +120,23 @@ public class AliTest {
         try {
             Integer openId = (Integer) jsonObject.get("open_id");
         } catch (Exception e) {
-            LogHubService.create().source("app").topic("android").pushLogHub(map, Loglevel.ERROR, text, e);
+            CompletableFuture<PutLogsResponse> future = LogHubService.create().source("app").topic("android").pushLogHub(map, Loglevel.ERROR, text, e);
+
+            // 正式服可以不需要这一段，这里只是为了让主线程不要立刻停止
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException ie) {
+                ie.printStackTrace();
+            }
+
+            // 执行成功，如果不需要返回值这一段可以不需要
+            future.thenAccept((result) -> System.out.println("thenAccept: " + result));
+            // 执行异常，如果不需要返回值这一段可以不需要
+            future.exceptionally((exec) -> {
+                exec.printStackTrace();
+                return null;
+            });
+
             e.printStackTrace();
         }
     }
@@ -121,7 +168,23 @@ public class AliTest {
         try {
             Integer openId = (Integer) jsonObject.get("open_id");
         } catch (Exception e) {
-            LogHubService.create().source("app").topic("android").pushLogHub(map, Loglevel.ERROR, text, e);
+            CompletableFuture<PutLogsResponse> future = LogHubService.create().source("app").topic("android").pushLogHub(map, Loglevel.ERROR, text, e);
+
+            // 正式服可以不需要这一段，这里只是为了让主线程不要立刻停止
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException ie) {
+                ie.printStackTrace();
+            }
+
+            // 执行成功，如果不需要返回值这一段可以不需要
+            future.thenAccept((result) -> System.out.println("thenAccept: " + result));
+            // 执行异常，如果不需要返回值这一段可以不需要
+            future.exceptionally((exec) -> {
+                exec.printStackTrace();
+                return null;
+            });
+
             e.printStackTrace();
         }
     }
@@ -142,6 +205,21 @@ public class AliTest {
         vals.add("锄禾日当午，汗滴禾下土。");
         vals.add("谁知盘中餐，粒粒皆辛苦。");
 
-        LogHubService.create().source("app").topic("android").pushLogHubListBatch("log", vals);
+        CompletableFuture<PutLogsResponse> future = LogHubService.create().source("app").topic("android").pushLogHubListBatch("log", vals);
+
+        // 正式服可以不需要这一段，这里只是为了让主线程不要立刻停止
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // 执行成功，如果不需要返回值这一段可以不需要
+        future.thenAccept((result) -> System.out.println("thenAccept: " + result));
+        // 执行异常，如果不需要返回值这一段可以不需要
+        future.exceptionally((e) -> {
+            e.printStackTrace();
+            return null;
+        });
     }
 }

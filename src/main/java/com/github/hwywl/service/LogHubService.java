@@ -14,6 +14,7 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * 阿里云日志操作
@@ -65,7 +66,7 @@ public class LogHubService {
      * @param data 数据
      * @return
      */
-    public PutLogsResponse pushLogHub(Object data) {
+    public CompletableFuture<PutLogsResponse> pushLogHub(Object data) {
         // 判断是否推送日志到LogHub
         if (!ConfLogHubUtil.isLogEnabled || null == data) {
             return null;
@@ -82,7 +83,7 @@ public class LogHubService {
      * @param data 数据
      * @return
      */
-    public PutLogsResponse pushLogHub(String data) {
+    public CompletableFuture<PutLogsResponse> pushLogHub(String data) {
         // 判断是否推送日志到LogHub
         if (!ConfLogHubUtil.isLogEnabled || StringUtil.isEmpty(data)) {
             return null;
@@ -103,7 +104,7 @@ public class LogHubService {
      * @param data 数据
      * @return
      */
-    public PutLogsResponse pushLogHubListObjectBatch(List<Object> data) {
+    public CompletableFuture<PutLogsResponse> pushLogHubListObjectBatch(List<Object> data) {
         // 判断是否推送日志到LogHub
         if (!ConfLogHubUtil.isLogEnabled || null == data) {
             return null;
@@ -120,7 +121,7 @@ public class LogHubService {
      * @param data 数据
      * @return
      */
-    public PutLogsResponse pushLogHubListBatch(List<String> data) {
+    public CompletableFuture<PutLogsResponse> pushLogHubListBatch(List<String> data) {
         // 判断是否推送日志到LogHub
         if (!ConfLogHubUtil.isLogEnabled || null == data || data.size() == 0) {
             return null;
@@ -138,7 +139,7 @@ public class LogHubService {
      * @param data 数据
      * @return
      */
-    public PutLogsResponse pushLogHubListObjectBatch(String key, List<Object> data) {
+    public CompletableFuture<PutLogsResponse> pushLogHubListObjectBatch(String key, List<Object> data) {
         // 判断是否推送日志到LogHub
         if (!ConfLogHubUtil.isLogEnabled || StringUtil.isEmpty(key) || null == data) {
             return null;
@@ -156,7 +157,7 @@ public class LogHubService {
      * @param data 数据
      * @return
      */
-    public PutLogsResponse pushLogHubListBatch(String key, List<String> data) {
+    public CompletableFuture<PutLogsResponse> pushLogHubListBatch(String key, List<String> data) {
         // 判断是否推送日志到LogHub
         if (!ConfLogHubUtil.isLogEnabled || StringUtil.isEmpty(key) || null == data || data.size() == 0) {
             return null;
@@ -174,7 +175,7 @@ public class LogHubService {
      * @param data 数据
      * @return
      */
-    public PutLogsResponse pushLogHub(String key, Object data) {
+    public CompletableFuture<PutLogsResponse> pushLogHub(String key, Object data) {
         // 判断是否推送日志到LogHub
         if (!ConfLogHubUtil.isLogEnabled || null == data || StringUtil.isEmpty(key)) {
             return null;
@@ -191,7 +192,7 @@ public class LogHubService {
      * @param data 数据
      * @return
      */
-    public PutLogsResponse pushLogHub(String key, String data) {
+    public CompletableFuture<PutLogsResponse> pushLogHub(String key, String data) {
         // 判断是否推送日志到LogHub
         if (!ConfLogHubUtil.isLogEnabled || StringUtil.isEmpty(data) || StringUtil.isEmpty(key)) {
             return null;
@@ -213,7 +214,7 @@ public class LogHubService {
      * @return
      * @throws LogException
      */
-    public PutLogsResponse pushLogHub(Map<String, String> data) {
+    public CompletableFuture<PutLogsResponse> pushLogHub(Map<String, String> data) {
         // 判断是否推送日志到LogHub
         if (!ConfLogHubUtil.isLogEnabled || null == data || data.size() == 0) {
             return null;
@@ -239,7 +240,7 @@ public class LogHubService {
      * @return
      * @throws LogException
      */
-    public PutLogsResponse pushLogHubBatch(List<Map<String, String>> data) {
+    public CompletableFuture<PutLogsResponse> pushLogHubBatch(List<Map<String, String>> data) {
         // 判断是否推送日志到LogHub
         if (!ConfLogHubUtil.isLogEnabled || null == data || data.size() == 0) {
             return null;
@@ -261,40 +262,6 @@ public class LogHubService {
     }
 
     /**
-     * 推送数据到阿里云日志库
-     *
-     * @param logGroup
-     * @return
-     * @throws LogException
-     */
-    private PutLogsResponse putLogsRequest(List<LogItem> logGroup) {
-        // 判断是否推送日志到LogHub
-        if (!ConfLogHubUtil.isLogEnabled) {
-            return null;
-        }
-
-        Client client = ConfLogHubUtil.getClient();
-
-        // 构建推送请求结构
-        PutLogsRequest req = new PutLogsRequest(
-                ConfLogHubUtil.getProject(),
-                ConfLogHubUtil.getLogStore(),
-                StringUtil.isEmpty(topic) ? ConfLogHubUtil.getTopic() : topic,
-                StringUtil.isEmpty(source) ? ConfLogHubUtil.getSource() : source,
-                logGroup
-        );
-
-        // 推送到阿里云日志仓库
-        PutLogsResponse putLogsResponse = null;
-        try {
-            putLogsResponse = client.PutLogs(req);
-        } catch (LogException e) {
-            e.printStackTrace();
-        }
-        return putLogsResponse;
-    }
-
-    /**
      * 单条异常日志推送
      *
      * @param data      自定义参数
@@ -303,7 +270,7 @@ public class LogHubService {
      * @param throwable 异常信息
      * @return
      */
-    public PutLogsResponse pushLogHub(Map<String, String> data, String level, String logData, Exception throwable) {
+    public CompletableFuture<PutLogsResponse> pushLogHub(Map<String, String> data, String level, String logData, Exception throwable) {
         // 判断是否推送日志到LogHub
         if (!ConfLogHubUtil.isLogEnabled) {
             return null;
@@ -336,5 +303,49 @@ public class LogHubService {
         logGroup.add(logItem);
 
         return putLogsRequest(logGroup);
+    }
+
+    /**
+     * 拼接推送数据结构
+     *
+     * @param logGroup
+     * @return
+     * @throws LogException
+     */
+    private CompletableFuture<PutLogsResponse> putLogsRequest(List<LogItem> logGroup) {
+        // 判断是否推送日志到LogHub
+        if (!ConfLogHubUtil.isLogEnabled) {
+            return null;
+        }
+
+        // 构建推送请求结构
+        PutLogsRequest req = new PutLogsRequest(
+                ConfLogHubUtil.getProject(),
+                ConfLogHubUtil.getLogStore(),
+                StringUtil.isEmpty(topic) ? ConfLogHubUtil.getTopic() : topic,
+                StringUtil.isEmpty(source) ? ConfLogHubUtil.getSource() : source,
+                logGroup
+        );
+
+        return CompletableFuture.supplyAsync(() -> putLogs(req));
+    }
+
+    /**
+     * 推送数据到阿里云日志库
+     *
+     * @param req 推送数据结构
+     * @return 推送结果
+     */
+    private PutLogsResponse putLogs(PutLogsRequest req) {
+        Client client = ConfLogHubUtil.getClient();
+        // 推送到阿里云日志仓库
+        PutLogsResponse putLogsResponse = null;
+        try {
+            putLogsResponse = client.PutLogs(req);
+        } catch (LogException e) {
+            e.printStackTrace();
+        }
+
+        return putLogsResponse;
     }
 }

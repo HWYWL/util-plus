@@ -1,7 +1,7 @@
 # util-plus
 一个使用很方便的工具类
 
-[![author](https://img.shields.io/badge/author-HWY-red.svg)](https://github.com/HWYWL)  [![Maven Central](https://img.shields.io/badge/util--plus-1.0.6--RELEASE-ff69b4.svg)](https://search.maven.org/artifact/com.github.hwywl/util-plus/1.0.6-RELEASE/jar)
+[![author](https://img.shields.io/badge/author-HWY-red.svg)](https://github.com/HWYWL)  [![Maven Central](https://img.shields.io/badge/util--plus-1.0.7--RELEASE-ff69b4.svg)](https://search.maven.org/artifact/com.github.hwywl/util-plus/1.0.9-RELEASE/jar)
 
 ### 安装
 **maven**
@@ -9,13 +9,13 @@
 <dependency>
     <groupId>com.github.hwywl</groupId>
     <artifactId>util-plus-spring-boot-starter</artifactId>
-    <version>1.0.6-RELEASE</version>
+    <version>1.0.7-RELEASE</version>
 </dependency>
 ```
 
 **Gradle**
 ```
-implementation 'com.github.hwywl:util-plus-spring-boot-starter:1.0.6-RELEASE'
+implementation 'com.github.hwywl:util-plus-spring-boot-starter:1.0.7-RELEASE'
 ```
 
 因为加入了spring框架的支持，所以jar包会比较大一点，如果你的项目中没有使用spring框架，可以使用老版本：
@@ -105,7 +105,7 @@ public void push() {
     map.put("chat_type", "私聊");
     map.put("open_id", "rfikaseoioire98weio3966666");
 
-    PutLogsResponse putLogsResponse = LogHubService.create().pushLogHub(map);
+    LogHubService.create().pushLogHub(map);
 }
 ```
 
@@ -125,7 +125,7 @@ map.put("receive_server_id", "1");
 map.put("chat_type", "私聊");
 map.put("open_id", "rfikaseoioire98weio3966666");
 
-PutLogsResponse putLogsResponse = LogHubService.create().pushLogHub(map);
+LogHubService.create().pushLogHub(map);
 ```
 还**支持**批量推送：
 ```java
@@ -138,7 +138,7 @@ map.put("open_id", "rfikaseoioire98weio3966666");
 
 batch.add(map);
 
-PutLogsResponse putLogsResponse = LogHubService.create().pushLogHubBatch(batch);
+LogHubService.create().pushLogHubBatch(batch);
 ```
 
 异常推送，因为考虑到一个**try catch**为一个异常，所以**不支持**批量推送：
@@ -162,6 +162,10 @@ LogHubService.create().source("app").topic("android").pushLogHub(map, Loglevel.E
 ```
 
 ----------
+
+### 1.0.7-RELEASE 版本更新
+1. 日志上报改为CompletableFuture异步方式
+2. 更新loghub sdk版本为 **0.6.61**
 
 ### 1.0.6-RELEASE 版本更新
 
